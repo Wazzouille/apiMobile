@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="bd_projetmobileModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="engagement">
+    <Key>
+      <PropertyRef Name="fk_utilisateur" />
+      <PropertyRef Name="fk_soiree" />
+    </Key>
+    <Property Name="fk_utilisateur" Type="int" Nullable="false" />
+    <Property Name="fk_soiree" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="soiree">
+    <Key>
+      <PropertyRef Name="idsoiree" />
+    </Key>
+    <Property Name="idsoiree" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nom" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="date" Type="date" Nullable="false" />
+    <Property Name="ville" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="codePostale" Type="int" Nullable="false" />
+    <Property Name="rue" Type="varchar" MaxLength="150" Nullable="false" />
+    <Property Name="prixPrevente" Type="decimal" Precision="5" Scale="2" />
+    <Property Name="prixSurPlace" Type="decimal" Precision="5" Scale="2" />
+    <Property Name="description" Type="varchar" MaxLength="200" />
+    <Property Name="fk_utilisateur" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="utilisateur">
+    <Key>
+      <PropertyRef Name="idutilisateur" />
+    </Key>
+    <Property Name="idutilisateur" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="adresseMail" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="motDePasse" Type="varchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <Association Name="fk_part_soiree">
+    <End Role="soiree" Type="Self.soiree" Multiplicity="1" />
+    <End Role="engagement" Type="Self.engagement" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="soiree">
+        <PropertyRef Name="idsoiree" />
+      </Principal>
+      <Dependent Role="engagement">
+        <PropertyRef Name="fk_soiree" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_part_utilisateur">
+    <End Role="utilisateur" Type="Self.utilisateur" Multiplicity="1" />
+    <End Role="engagement" Type="Self.engagement" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="utilisateur">
+        <PropertyRef Name="idutilisateur" />
+      </Principal>
+      <Dependent Role="engagement">
+        <PropertyRef Name="fk_utilisateur" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_utilisateur">
+    <End Role="utilisateur" Type="Self.utilisateur" Multiplicity="1" />
+    <End Role="soiree" Type="Self.soiree" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="utilisateur">
+        <PropertyRef Name="idutilisateur" />
+      </Principal>
+      <Dependent Role="soiree">
+        <PropertyRef Name="fk_utilisateur" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="bd_projetmobileModelStoreContainer">
+    <EntitySet Name="engagement" EntityType="Self.engagement" Schema="bd_projetmobile" store:Type="Tables" />
+    <EntitySet Name="soiree" EntityType="Self.soiree" Schema="bd_projetmobile" store:Type="Tables" />
+    <EntitySet Name="utilisateur" EntityType="Self.utilisateur" Schema="bd_projetmobile" store:Type="Tables" />
+    <AssociationSet Name="fk_part_soiree" Association="Self.fk_part_soiree">
+      <End Role="soiree" EntitySet="soiree" />
+      <End Role="engagement" EntitySet="engagement" />
+    </AssociationSet>
+    <AssociationSet Name="fk_part_utilisateur" Association="Self.fk_part_utilisateur">
+      <End Role="utilisateur" EntitySet="utilisateur" />
+      <End Role="engagement" EntitySet="engagement" />
+    </AssociationSet>
+    <AssociationSet Name="fk_utilisateur" Association="Self.fk_utilisateur">
+      <End Role="utilisateur" EntitySet="utilisateur" />
+      <End Role="soiree" EntitySet="soiree" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

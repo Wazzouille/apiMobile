@@ -1,0 +1,214 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="bd_projetmobileModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="engagement">
+          <Key>
+            <PropertyRef Name="fk_utilisateur" />
+            <PropertyRef Name="fk_soiree" />
+          </Key>
+          <Property Name="fk_utilisateur" Type="int" Nullable="false" />
+          <Property Name="fk_soiree" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="soiree">
+          <Key>
+            <PropertyRef Name="idsoiree" />
+          </Key>
+          <Property Name="idsoiree" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nom" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="ville" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="codePostale" Type="int" Nullable="false" />
+          <Property Name="rue" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="prixPrevente" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="prixSurPlace" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="description" Type="varchar" MaxLength="200" />
+          <Property Name="fk_utilisateur" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="utilisateur">
+          <Key>
+            <PropertyRef Name="idutilisateur" />
+          </Key>
+          <Property Name="idutilisateur" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="adresseMail" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="motDePasse" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <Association Name="fk_part_soiree">
+          <End Role="soiree" Type="Self.soiree" Multiplicity="1" />
+          <End Role="engagement" Type="Self.engagement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="soiree">
+              <PropertyRef Name="idsoiree" />
+            </Principal>
+            <Dependent Role="engagement">
+              <PropertyRef Name="fk_soiree" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_part_utilisateur">
+          <End Role="utilisateur" Type="Self.utilisateur" Multiplicity="1" />
+          <End Role="engagement" Type="Self.engagement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="utilisateur">
+              <PropertyRef Name="idutilisateur" />
+            </Principal>
+            <Dependent Role="engagement">
+              <PropertyRef Name="fk_utilisateur" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_utilisateur">
+          <End Role="utilisateur" Type="Self.utilisateur" Multiplicity="1" />
+          <End Role="soiree" Type="Self.soiree" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="utilisateur">
+              <PropertyRef Name="idutilisateur" />
+            </Principal>
+            <Dependent Role="soiree">
+              <PropertyRef Name="fk_utilisateur" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="bd_projetmobileModelStoreContainer">
+          <EntitySet Name="engagement" EntityType="Self.engagement" Schema="bd_projetmobile" store:Type="Tables" />
+          <EntitySet Name="soiree" EntityType="Self.soiree" Schema="bd_projetmobile" store:Type="Tables" />
+          <EntitySet Name="utilisateur" EntityType="Self.utilisateur" Schema="bd_projetmobile" store:Type="Tables" />
+          <AssociationSet Name="fk_part_soiree" Association="Self.fk_part_soiree">
+            <End Role="soiree" EntitySet="soiree" />
+            <End Role="engagement" EntitySet="engagement" />
+          </AssociationSet>
+          <AssociationSet Name="fk_part_utilisateur" Association="Self.fk_part_utilisateur">
+            <End Role="utilisateur" EntitySet="utilisateur" />
+            <End Role="engagement" EntitySet="engagement" />
+          </AssociationSet>
+          <AssociationSet Name="fk_utilisateur" Association="Self.fk_utilisateur">
+            <End Role="utilisateur" EntitySet="utilisateur" />
+            <End Role="soiree" EntitySet="soiree" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="bd_projetmobileModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="soiree">
+          <Key>
+            <PropertyRef Name="idsoiree" />
+          </Key>
+          <Property Name="idsoiree" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nom" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" />
+          <Property Name="ville" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="codePostale" Type="Int32" Nullable="false" />
+          <Property Name="rue" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="prixPrevente" Type="Decimal" />
+          <Property Name="prixSurPlace" Type="Decimal" />
+          <Property Name="description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="fk_utilisateur" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="utilisateur" Relationship="Self.fk_utilisateur" FromRole="soiree" ToRole="utilisateur" />
+          <NavigationProperty Name="utilisateur1" Relationship="Self.engagement" FromRole="soiree" ToRole="utilisateur" />
+        </EntityType>
+        <EntityType Name="utilisateur">
+          <Key>
+            <PropertyRef Name="idutilisateur" />
+          </Key>
+          <Property Name="idutilisateur" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="adresseMail" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="motDePasse" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="soiree" Relationship="Self.fk_utilisateur" FromRole="utilisateur" ToRole="soiree" />
+          <NavigationProperty Name="soiree1" Relationship="Self.engagement" FromRole="utilisateur" ToRole="soiree" />
+        </EntityType>
+        <Association Name="fk_utilisateur">
+          <End Role="utilisateur" Type="Self.utilisateur" Multiplicity="1" />
+          <End Role="soiree" Type="Self.soiree" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="utilisateur">
+              <PropertyRef Name="idutilisateur" />
+            </Principal>
+            <Dependent Role="soiree">
+              <PropertyRef Name="fk_utilisateur" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="engagement">
+          <End Role="soiree" Type="Self.soiree" Multiplicity="*" />
+          <End Role="utilisateur" Type="Self.utilisateur" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="bd_projetmobileEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="soiree" EntityType="Self.soiree" />
+          <EntitySet Name="utilisateur" EntityType="Self.utilisateur" />
+          <AssociationSet Name="fk_utilisateur" Association="Self.fk_utilisateur">
+            <End Role="utilisateur" EntitySet="utilisateur" />
+            <End Role="soiree" EntitySet="soiree" />
+          </AssociationSet>
+          <AssociationSet Name="engagement" Association="Self.engagement">
+            <End Role="soiree" EntitySet="soiree" />
+            <End Role="utilisateur" EntitySet="utilisateur" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="bd_projetmobileModelStoreContainer" CdmEntityContainer="bd_projetmobileEntities1">
+          <EntitySetMapping Name="soiree">
+            <EntityTypeMapping TypeName="bd_projetmobileModel.soiree">
+              <MappingFragment StoreEntitySet="soiree">
+                <ScalarProperty Name="idsoiree" ColumnName="idsoiree" />
+                <ScalarProperty Name="nom" ColumnName="nom" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="ville" ColumnName="ville" />
+                <ScalarProperty Name="codePostale" ColumnName="codePostale" />
+                <ScalarProperty Name="rue" ColumnName="rue" />
+                <ScalarProperty Name="prixPrevente" ColumnName="prixPrevente" />
+                <ScalarProperty Name="prixSurPlace" ColumnName="prixSurPlace" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="fk_utilisateur" ColumnName="fk_utilisateur" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="utilisateur">
+            <EntityTypeMapping TypeName="bd_projetmobileModel.utilisateur">
+              <MappingFragment StoreEntitySet="utilisateur">
+                <ScalarProperty Name="idutilisateur" ColumnName="idutilisateur" />
+                <ScalarProperty Name="adresseMail" ColumnName="adresseMail" />
+                <ScalarProperty Name="motDePasse" ColumnName="motDePasse" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="engagement" TypeName="bd_projetmobileModel.engagement" StoreEntitySet="engagement">
+            <EndProperty Name="soiree">
+              <ScalarProperty Name="idsoiree" ColumnName="fk_soiree" />
+            </EndProperty>
+            <EndProperty Name="utilisateur">
+              <ScalarProperty Name="idutilisateur" ColumnName="fk_utilisateur" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

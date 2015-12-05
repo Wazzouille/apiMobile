@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="bd_projetmobileModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="soiree">
+    <Key>
+      <PropertyRef Name="idsoiree" />
+    </Key>
+    <Property Name="idsoiree" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nom" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="date" Type="DateTime" Nullable="false" />
+    <Property Name="ville" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="codePostale" Type="Int32" Nullable="false" />
+    <Property Name="rue" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="prixPrevente" Type="Decimal" />
+    <Property Name="prixSurPlace" Type="Decimal" />
+    <Property Name="description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="fk_utilisateur" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="utilisateur" Relationship="Self.fk_utilisateur" FromRole="soiree" ToRole="utilisateur" />
+    <NavigationProperty Name="utilisateur1" Relationship="Self.engagement" FromRole="soiree" ToRole="utilisateur" />
+  </EntityType>
+  <EntityType Name="utilisateur">
+    <Key>
+      <PropertyRef Name="idutilisateur" />
+    </Key>
+    <Property Name="idutilisateur" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="adresseMail" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="motDePasse" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="soiree" Relationship="Self.fk_utilisateur" FromRole="utilisateur" ToRole="soiree" />
+    <NavigationProperty Name="soiree1" Relationship="Self.engagement" FromRole="utilisateur" ToRole="soiree" />
+  </EntityType>
+  <Association Name="fk_utilisateur">
+    <End Role="utilisateur" Type="Self.utilisateur" Multiplicity="1" />
+    <End Role="soiree" Type="Self.soiree" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="utilisateur">
+        <PropertyRef Name="idutilisateur" />
+      </Principal>
+      <Dependent Role="soiree">
+        <PropertyRef Name="fk_utilisateur" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="engagement">
+    <End Role="soiree" Type="Self.soiree" Multiplicity="*" />
+    <End Role="utilisateur" Type="Self.utilisateur" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="bd_projetmobileEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="soiree" EntityType="Self.soiree" />
+    <EntitySet Name="utilisateur" EntityType="Self.utilisateur" />
+    <AssociationSet Name="fk_utilisateur" Association="Self.fk_utilisateur">
+      <End Role="utilisateur" EntitySet="utilisateur" />
+      <End Role="soiree" EntitySet="soiree" />
+    </AssociationSet>
+    <AssociationSet Name="engagement" Association="Self.engagement">
+      <End Role="soiree" EntitySet="soiree" />
+      <End Role="utilisateur" EntitySet="utilisateur" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

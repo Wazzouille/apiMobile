@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="bd_projetmobileModelStoreContainer" CdmEntityContainer="bd_projetmobileEntities">
+    <EntitySetMapping Name="soiree">
+      <EntityTypeMapping TypeName="bd_projetmobileModel.soiree">
+        <MappingFragment StoreEntitySet="soiree">
+          <ScalarProperty Name="idsoiree" ColumnName="idsoiree" />
+          <ScalarProperty Name="nom" ColumnName="nom" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="ville" ColumnName="ville" />
+          <ScalarProperty Name="codePostale" ColumnName="codePostale" />
+          <ScalarProperty Name="rue" ColumnName="rue" />
+          <ScalarProperty Name="prixPrevente" ColumnName="prixPrevente" />
+          <ScalarProperty Name="prixSurPlace" ColumnName="prixSurPlace" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="fk_utilisateur" ColumnName="fk_utilisateur" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="utilisateur">
+      <EntityTypeMapping TypeName="bd_projetmobileModel.utilisateur">
+        <MappingFragment StoreEntitySet="utilisateur">
+          <ScalarProperty Name="idutilisateur" ColumnName="idutilisateur" />
+          <ScalarProperty Name="adresseMail" ColumnName="adresseMail" />
+          <ScalarProperty Name="motDePasse" ColumnName="motDePasse" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="engagement" TypeName="bd_projetmobileModel.engagement" StoreEntitySet="engagement">
+      <EndProperty Name="soiree">
+        <ScalarProperty Name="idsoiree" ColumnName="fk_soiree" />
+      </EndProperty>
+      <EndProperty Name="utilisateur">
+        <ScalarProperty Name="idutilisateur" ColumnName="fk_utilisateur" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>
